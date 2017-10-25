@@ -87,18 +87,18 @@ class Klczbb:
         # If s*_j is the top slot, bid the value v_j
 
         prev_round = history.round(t-1)
+        clicks = prev_round.clicks
         (slot, min_bid, max_bid) = self.target_slot(t, history, reserve)
 
         # TODO: Fill this in.
         bid = 0  # change this
         t_j = min_bid
         if t_j >= self.value:
-        	bid = self.value
+            bid = self.value
         elif slot == 0:
-        	bid = self.value
+            bid = self.value
         else:
-        	bid = 4/3*t_j - 1/3*self.value
-
+            bid = self.value - (clicks[slot] / float(clicks[slot-1])) * (self.value - t_j)
         return bid
 
     def __repr__(self):
