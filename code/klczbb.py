@@ -37,6 +37,7 @@ class Klczbb:
             return (s, min, max)
             
         info = map(compute, range(len(clicks)))
+
 #        sys.stdout.write("slot info: %s\n" % info)
         return info
 
@@ -52,13 +53,13 @@ class Klczbb:
         # TODO: Fill this in
         utilities = []  
 
-        current_round = history.round(t)
-        clicks = current_round.clicks
+        prev_round = history.round(t-1)
+        clicks = prev_round.clicks
 
-        all_bids = slot_info(self, t, history, reserve) 
-        for (s, min, max) in all_bids:
-        	util = clicks*(0.75)**(s)*(self.value - min)
-        	utilities.append(util)
+        all_bids = self.slot_info(t, history, reserve)
+        for (t, min_bid, max_bid) in all_bids:
+            util = clicks[t] * (self.value - min_bid)
+            utilities.append(util)
         
         return utilities
 
