@@ -376,6 +376,12 @@ def main(args):
     print "Total Utility: $%.2f" % (0.01*sum(totals.values())/options.iters)
     print "Average Utility: $%.2f" % (0.01*sum(totals.values())/n/options.iters)
 
+    # write to data file
+    #print .01 * options.reserve, .01 * m, .01* std
+
+    # get average utility
+    #print .01*sum(totals.values())/(float(len(totals.values())) * N)
+
 #print "config", config.budget
     
 
