@@ -373,6 +373,8 @@ def main(args):
     m = mean(total_revenues)
     std = stddev(total_revenues)
     logging.warning("Average daily revenue (stddev): $%.2f ($%.2f)" % (0.01 * m, 0.01*std))
+    print "Total Utility: $%.2f" % (0.01*sum(totals.values())/options.iters)
+    print "Average Utility: $%.2f" % (0.01*sum(totals.values())/n/options.iters)
 
 #print "config", config.budget
     

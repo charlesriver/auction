@@ -4,6 +4,7 @@ import sys
 
 from gsp import GSP
 from util import argmax_index
+import random
 
 class Klczbudget:
     """Balanced bidding agent"""
@@ -52,7 +53,14 @@ class Klczbudget:
         # TODO: Fill this in
         utilities = []   # Change this
 
-        
+        prev_round = history.round(t-1)
+        clicks = prev_round.clicks
+
+        all_bids = self.slot_info(t, history, reserve)
+        for (t, min_bid, max_bid) in all_bids:
+            util = clicks[t] * (self.value - min_bid)
+            utilities.append(util)
+
         return utilities
 
     def target_slot(self, t, history, reserve):
@@ -79,11 +87,28 @@ class Klczbudget:
         # If s*_j is the top slot, bid the value v_j
 
         prev_round = history.round(t-1)
+        clicks = prev_round.clicks
         (slot, min_bid, max_bid) = self.target_slot(t, history, reserve)
 
         # TODO: Fill this in.
         bid = 0  # change this
+        t_j = min_bid
+
+        if t_j >= self.value:
+            bid = self.value
+        elif slot == 0:
+            bid = self.value
+        else:
+            bid = self.value - (clicks[slot] / float(clicks[slot-1])) * (self.value - t_j)
         
+        just_bids = [j for (i,j) in prev_round.bids] 
+
+        if t >= 24:
+            if t % 2 == 0:
+            	bid = min(self.value, max(just_bids))
+        if t >= 43:
+        	bid = min(self.value, max(just_bids))
+
         return bid
 
     def __repr__(self):
